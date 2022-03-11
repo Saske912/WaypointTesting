@@ -11,7 +11,7 @@ project = "webserver"
 variable "username" {
   type = string
   default = dynamic("kubernetes", {
-    name = "userConfigmap"
+    name = "user-configmap"
     key = "username"
   })
   env = ["USERNAME"]
@@ -20,7 +20,7 @@ variable "username" {
 variable "password" {
   type = string
   default = dynamic("kubernetes", {
-    name = "userConfigmap"
+    name = "user-configmap"
     key = base64decode("password")
   })
   env = ["PASSWORD"]

@@ -1,0 +1,18 @@
+[Unit]
+Description=The NGINX HTTP and reverse proxy server
+Documentation=man:nginx(8)
+After=network.target nss-lookup.target
+
+[Service]
+Type=forking
+PIDFile=/etc/nginx/nginx.pid
+ExecStartPre=/etc/nginx/sbin/nginx -t -q -g 'daemon on; master_process on;'
+ExecStart=/etc/nginx/sbin/nginx -g 'daemon on; master_process on;'
+ExecReload=/etc/nginx/sbin/nginx  -g 'daemon on; master_process on;' -s reload
+ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /etc/nginx/nginx.pid
+TimeoutStopSec=5
+KillMode=mixed
+
+
+[Install]
+WantedBy=multi-user.target

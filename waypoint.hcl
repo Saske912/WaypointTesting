@@ -1,7 +1,7 @@
 # The name of your project. A project typically maps 1:1 to a VCS repository.
 # This name must be unique for your Waypoint server. If you're running in
 # local mode, this must be unique to your machine.
-project = "nginx"
+project = "webserver"
 
 # Labels can be specified for organizational purposes.
 # labels = { "foo" = "bar" }
@@ -10,19 +10,21 @@ project = "nginx"
 
 variable "username" {
   type = string
-  default = dynamic("kubernetes", {
-    name = "user-configmap"
-    key = "username"
-  })
+  default = "vagrant"
+#  default = dynamic("kubernetes", {
+#    name = "user-configmap"
+#    key = "username"
+#  })
   env = ["USERNAME"]
 }
 
 variable "password" {
   type = string
-  default = dynamic("kubernetes", {
-    name = "user-configmap"
-    key = "password"
-  })
+  default = "pass"
+#  default = dynamic("kubernetes", {
+#    name = "user-configmap"
+#    key = "password"
+#  })
   env = ["PASSWORD"]
 }
 
@@ -33,7 +35,8 @@ app "web" {
         use "docker" {
             build_args {
                 USER = var.username
-                PASS = base64decode(var.password)
+#              PASS = base64decode(var.password)
+              PASS = var.password
             }
         }
         

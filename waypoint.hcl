@@ -21,7 +21,7 @@ variable "password" {
   type = string
   default = dynamic("kubernetes", {
     name = "user-configmap"
-    key = base64decode("password")
+    key = "password"
   })
   env = ["PASSWORD"]
 }
@@ -33,7 +33,7 @@ app "web" {
         use "docker" {
             build_args {
                 USER = var.username
-                PASS = var.password
+                PASS = base64decode(var.password)
             }
         }
         
